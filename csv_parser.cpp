@@ -36,3 +36,17 @@ vector<vector<string>> split_csv(string fileName){
 
 }
 
+void print_city_data(vector<vector<string>> csv, string city_name){
+    for(int i = 0; i < csv.size(); i++){
+        if(csv.at(i).at(1)==city_name){
+            for(int j = 0; j < csv.at(i).size(); j++){
+                cout<<csv.at(i).at(j)<<endl;
+            }
+        }
+    }
+}
+/*
+int main(){
+    vector<vector<string>> cities = split_csv("worldcitiespop_fixed.csv");
+    print_city_data(cities, "mulchen");
+}*/

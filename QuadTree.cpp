@@ -5,7 +5,8 @@
 QuadTree::QuadTree(Point a, Point b){
 	root = nullptr;
 	root = new Node(std::pair(a, b), "", -1, false);
-
+	puntos = 0;
+	nodos = 0;
 }
 
 QuadTree::~QuadTree(){
@@ -13,14 +14,19 @@ QuadTree::~QuadTree(){
 }
 
 int QuadTree::totalPoints(){
-	return 1;
+	return puntos;
 }
 
 int QuadTree::totalNodes(){
-	return 1;
+	return nodos;
 }
 
-void QuadTree::insert(Point p, int data){
+void QuadTree::insert(Point p){
+	if(!root.es_negro){
+		root.cords = p;
+	}else{
+		
+	}
 	return;
 }
 

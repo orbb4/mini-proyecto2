@@ -7,22 +7,24 @@
 
 using namespace std;
 
-struct Point{
+struct Point {
 	int x;
 	int y;
 };
 
-class Node{
+template <class T>
+class Node
+{
+private:
+	T data;
+
 public:
+	Node(pair<Point, Point> limites, bool es_negro, T data);
 
 	Point cords;
-	Node(pair<Point, Point> limites, string ciudad, int poblacion, bool es_negro);
-	Node* nodes;
+	Node *nodes;
 	// par de ptos que representa los limites del cuadrante del nodo
-	// cada int[2] tiene: (cord superior izquierda, cord inferior derecha)
 	pair<Point, Point> limites;
-	string ciudad;
-	int poblacion;
 	bool es_negro;
 
 };

@@ -23,32 +23,27 @@ int QuadTree::totalNodes(){
 
 void QuadTree::insert(Point p){
 	bool not_inserted = true;
+	bool in_boundaries = false;
 	Node* actualNode = root;
+
+	//OBTIENE LOS LIMITES Y VE SI EL PUNTO ESTÁ FUERA DE ELLOS
+	Point topLeft = root->get(0)<limites>;
+	Point botRight = root->get(1)<limites>;
+	if (p.x >= topLeft.x && p.x <= botRight.x && p.y >= topLeft.y && 
+		p.y <= botRight.y)
+	{
+		in_boundaries = true;
+	}
+	else{in_boundaries = false;}
+
+	//Loop para encontrar el nodo correcto para insertar p
 	while(true){
 		if (!root->es_negro)
 		{
-			float new_lim_sup_x = 0;
-			float new_lim_inf_x = 0;
-			float new_lim_sup_y = 0;
-			float new_lim_inf_y = 0;
-			root->data = p;
-			//PRIMER CUADRANTE
-			new_lim_sup_x = root->get(0)<limites>.x;
-			new_lim_inf_x = root->get(1)<limites>.x;
-			
 
-
-			root->nodes[0] = root = new Node(std::pair(new_lim_sup, new_lim_inf), "", -1, false);
-			root->nodes[1] = root = new Node(std::pair(new_lim_sup, new_lim_inf), "", -1, false);
-			root->nodes[2] = root = new Node(std::pair(new_lim_sup, new_lim_inf), "", -1, false);
-			root->nodes[3] = root = new Node(std::pair(new_lim_sup, new_lim_inf), "", -1, false);
-
-			break;
 		}
-		if ()
-		{
-			/* code */
-		}
+		std::cout<<"alo?"<<std::endl;
+		break;
 	}
 	return;
 }

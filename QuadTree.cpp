@@ -21,31 +21,74 @@ int QuadTree::totalNodes(){
 	return nodos;
 }
 
-void QuadTree::insert(Point p){
-	bool not_inserted = true;
-	bool in_boundaries = false;
-	Node* actualNode = root;
+bool QuadTree::inBoundary(Point p)
+{
+    return (p.x >= topLeft.x && p.x <= botRight.x
+        && p.y >= topLeft.y && p.y <= botRight.y);
+}
 
-	//OBTIENE LOS LIMITES Y VE SI EL PUNTO ESTÁ FUERA DE ELLOS
-	Point topLeft = root->get(0)<limites>;
-	Point botRight = root->get(1)<limites>;
-	if (p.x >= topLeft.x && p.x <= botRight.x && p.y >= topLeft.y && 
-		p.y <= botRight.y)
-	{
-		in_boundaries = true;
-	}
-	else{in_boundaries = false;}
+void QuadTree::insert(Point p) {
+    Node* node = new Node(p);
 
-	//Loop para encontrar el nodo correcto para insertar p
-	while(true){
-		if (!root->es_negro)
-		{
+    if (node == nullptr)
+        return;
 
-		}
-		std::cout<<"alo?"<<std::endl;
-		break;
-	}
-	return;
+    QuadTree* currentQuad = this;
+
+    while (currentQuad != nullptr) {
+        if (!currentQuad->inBoundary(node->pos))
+            return;
+
+        if (abs(currentQuad->topLeft.x - currentQuad->botRight.x) <= 0.0001
+            && abs(currentQuad->topLeft.y - currentQuad->botRight.y) <= 0.0001) {
+            if (currentQuad->n == nullptr)
+                currentQuad->n = node;
+            return;
+        }
+
+        if ((currentQuad->topLeft.x + currentQuad->botRight.x) / 2 >= node->pos.x) {
+            // Indicates topLeftTree
+            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= node->pos.y) {
+                if (currentQuad->topLeftTree == nullptr)
+                    currentQuad->topLeftTree = new Quad(
+                        Point(currentQuad->topLeft.x, currentQuad->topLeft.y),
+                        Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
+                            (currentQuad->topLeft.y + currentQuad->botRight.y) / 2));
+                currentQuad = currentQuad->topLeftTree;
+            }
+            // Indicates botLeftTree
+            else {
+                if (currentQuad->botLeftTree == nullptr)
+                    currentQuad->botLeftTree = new Quad(
+                        Point(currentQuad->topLeft.x,
+                            (currentQuad->topLeft.y + currentQuad->botRight.y) / 2),
+                        Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
+                            currentQuad->botRight.y));
+                currentQuad = currentQuad->botLeftTree;
+            }
+        }
+        else {
+            // Indicates topRightTree
+            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= node->pos.y) {
+                if (currentQuad->topRightTree == nullptr)
+                    currentQuad->topRightTree = new Quad(
+                        Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
+                            currentQuad->topLeft.y),
+                        Point(currentQuad->botRight.x,
+                            (currentQuad->topLeft.y + currentQuad->botRight.y) / 2));
+                currentQuad = currentQuad->topRightTree;
+            }
+            // Indicates botRightTree
+            else {
+                if (currentQuad->botRightTree == nullptr)
+                    currentQuad->botRightTree = new Quad(
+                        Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
+                            (currentQuad->topLeft.y + currentQuad->botRight.y) / 2),
+                        Point(currentQuad->botRight.x, currentQuad->botRight.y));
+                currentQuad = currentQuad->botRightTree;
+            }
+        }
+    }
 }
 
 void QuadTree::list(){

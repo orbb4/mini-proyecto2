@@ -2,32 +2,39 @@
 #include "Node.h"
 #include <iostream>
 
-QuadTree::QuadTree(Point a, Point b){
+
+template <class T>
+QuadTree<T>::QuadTree(Point a, Point b){
 	root = nullptr;
 	root = new Node(std::pair(a, b), "", -1, false);
 	puntos = 0;
 	nodos = 0;
 }
 
-QuadTree::~QuadTree(){
+template <class T>
+QuadTree<T>::~QuadTree(){
 	return;
 }
 
-int QuadTree::totalPoints(){
+template <class T>
+int QuadTree<T>::totalPoints(){
 	return puntos;
 }
 
-int QuadTree::totalNodes(){
+template <class T>
+int QuadTree<T>::totalNodes(){
 	return nodos;
 }
 
-bool QuadTree::inBoundary(Point p)
+template <class T>
+bool QuadTree<T>::inBoundary(Point p)
 {
     return (p.x >= topLeft.x && p.x <= botRight.x
         && p.y >= topLeft.y && p.y <= botRight.y);
 }
 
-void QuadTree::insert(Point p) {
+template <class T>
+void QuadTree<T>::insert(Point p) {
     Node* node = new Node(p);
 
     if (node == nullptr)
@@ -91,15 +98,20 @@ void QuadTree::insert(Point p) {
     }
 }
 
-void QuadTree::list(){
+template <class T>
+void QuadTree<T>::list(){
 	return;
 }
 
-int QuadTree::countRegion(Point p, int d){
+
+template <class T>
+int QuadTree<T>::countRegion(Point p, int d){
 	return 1;
 }
 
-int QuadTree::AggregateRegion(Point p, int d){
+
+template <class T>
+int QuadTree<T>::AggregateRegion(Point p, int d){
 	return 1;
 }
 

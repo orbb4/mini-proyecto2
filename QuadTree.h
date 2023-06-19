@@ -1,14 +1,19 @@
 #include "Node.h"
 
+
+template <class T>
 class QuadTree {
 private:
 
 public:
 
-	Node *root;
+	Node<T> *root;
 
 	QuadTree(Point, Point);
 	~QuadTree();
+
+	bool inBoundary(Point);
+	void insert(Point);
 
 	int totalPoints(); // Retorna la cantidad de puntos almacenados en el QuadTree
 	int totalNodes(); // Retorna la cantidad de nodos, tanto blancos como negros, en el QuadTree

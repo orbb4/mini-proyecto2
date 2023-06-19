@@ -11,6 +11,6 @@ public:
 
 	void readCityData(string str);
 
-	Ciudad(/* args */);
+	Ciudad();
 	~Ciudad();
 };

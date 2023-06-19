@@ -6,6 +6,8 @@
 #include <stdexcept> // std::runtime_error
 #include <sstream> // std::stringstream
 #include <cstring>  
+#include "Node.h"
+#include "Ciudad.h"
 using namespace std;
 
 
@@ -36,6 +38,23 @@ vector<vector<string>> split_csv(string fileName){
 
 }
 
+Ciudad *get_city(vector<vector<string>> csv, Point p){
+    Ciudad *city = new Ciudad();
+
+    for(int i = 1; i < csv.size(); i++){
+        std::cout<<std::stoi(csv.at(i).at(5))<<" "<<std::stoi(csv.at(i).at(6))<<std::endl;
+        if(std::stoi(csv.at(i).at(5))== p.x && std::stoi(csv.at(i).at(6)) == p.y){         
+            city->City = csv.at(i).at(1);
+            city->AccentCity = csv.at(i).at(2);
+            std::cout<<city->City<<std::endl;
+            return city;
+        }
+    }
+    std::cout<<":("<<std::endl;
+    return city;
+}
+
+
 void print_city_data(vector<vector<string>> csv, string city_name){
     for(int i = 0; i < csv.size(); i++){
         if(csv.at(i).at(1)==city_name){
@@ -45,8 +64,14 @@ void print_city_data(vector<vector<string>> csv, string city_name){
         }
     }
 }
+
 /*
 int main(){
     vector<vector<string>> cities = split_csv("worldcitiespop_fixed.csv");
-    print_city_data(cities, "mulchen");
+    //print_city_data(cities, "mulchen");
+    struct Point p;
+    p.x = -15; 
+    p.y = 20;
+    get_city(cities, p);
+    return 0;
 }*/

@@ -27,6 +27,7 @@ public:
 	pair<Point, Point> limites;
 	bool es_negro;
 
+	bool inBoundary(Point);
 };
 
 #endif

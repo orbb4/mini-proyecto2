@@ -9,6 +9,9 @@ public:
 
 	Node<T> *root;
 
+	int puntos;
+	int nodos;
+
 	QuadTree(Point, Point);
 	~QuadTree();
 

@@ -27,37 +27,25 @@ int QuadTree<T>::totalNodes(){
 }
 
 template <class T>
-bool QuadTree<T>::inBoundary(Point p)
-{
-    return (p.x >= topLeft.x && p.x <= botRight.x
-        && p.y >= topLeft.y && p.y <= botRight.y);
-}
-
-template <class T>
 void QuadTree<T>::insert(Point p) {
-    Node* node = new Node(p);
 
-    if (node == nullptr)
-        return;
-
-    QuadTree* currentQuad = this;
+    Node<T> *currentQuad = root;
 
     while (currentQuad != nullptr) {
-        if (!currentQuad->inBoundary(node->pos))
+
+        if (!currentQuad->inBoundary(p))
             return;
 
         if (abs(currentQuad->topLeft.x - currentQuad->botRight.x) <= 0.0001
             && abs(currentQuad->topLeft.y - currentQuad->botRight.y) <= 0.0001) {
-            if (currentQuad->n == nullptr)
-                currentQuad->n = node;
             return;
         }
 
-        if ((currentQuad->topLeft.x + currentQuad->botRight.x) / 2 >= node->pos.x) {
+        if ((currentQuad->topLeft.x + currentQuad->botRight.x) / 2 >= p.x) {
             // Indicates topLeftTree
-            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= node->pos.y) {
+            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= p.y) {
                 if (currentQuad->topLeftTree == nullptr)
-                    currentQuad->topLeftTree = new Quad(
+                    currentQuad->topLeftTree = new Node(
                         Point(currentQuad->topLeft.x, currentQuad->topLeft.y),
                         Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
                             (currentQuad->topLeft.y + currentQuad->botRight.y) / 2));
@@ -66,7 +54,7 @@ void QuadTree<T>::insert(Point p) {
             // Indicates botLeftTree
             else {
                 if (currentQuad->botLeftTree == nullptr)
-                    currentQuad->botLeftTree = new Quad(
+                    currentQuad->botLeftTree = new Node(
                         Point(currentQuad->topLeft.x,
                             (currentQuad->topLeft.y + currentQuad->botRight.y) / 2),
                         Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
@@ -76,9 +64,9 @@ void QuadTree<T>::insert(Point p) {
         }
         else {
             // Indicates topRightTree
-            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= node->pos.y) {
+            if ((currentQuad->topLeft.y + currentQuad->botRight.y) / 2 >= p.y) {
                 if (currentQuad->topRightTree == nullptr)
-                    currentQuad->topRightTree = new Quad(
+                    currentQuad->topRightTree = new Node(
                         Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
                             currentQuad->topLeft.y),
                         Point(currentQuad->botRight.x,
@@ -88,7 +76,7 @@ void QuadTree<T>::insert(Point p) {
             // Indicates botRightTree
             else {
                 if (currentQuad->botRightTree == nullptr)
-                    currentQuad->botRightTree = new Quad(
+                    currentQuad->botRightTree = new Node(
                         Point((currentQuad->topLeft.x + currentQuad->botRight.x) / 2,
                             (currentQuad->topLeft.y + currentQuad->botRight.y) / 2),
                         Point(currentQuad->botRight.x, currentQuad->botRight.y));
@@ -114,8 +102,3 @@ template <class T>
 int QuadTree<T>::AggregateRegion(Point p, int d){
 	return 1;
 }
-
-int main(){
-	return 0;
-}
-

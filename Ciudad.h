@@ -6,8 +6,8 @@ class Ciudad
 {
 private:
 public:
-	string Country,City,AccentCity;
-	int region, Population,Latitude,Longitude;
+	string Country,City,AccentCity, region;
+	int Population,Latitude,Longitude;
 
 	void readCityData(string str);
 

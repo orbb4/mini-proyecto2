@@ -23,8 +23,7 @@ struct Point {
 
 class Node
 {
-private:
-	float data;
+
 
 public:
 	Node(Point cords, Point topLeft, Point botRight, bool es_negro, float data);
@@ -32,6 +31,7 @@ public:
 	Point topLeft;
 	Point botRight;
 	Point cords;
+	float data;
 
 	bool es_negro;
 	Node* topLeftTree;
@@ -42,4 +42,14 @@ public:
 	bool inBoundary(Point);
 };
 
+class NodeL
+{
+public:
+	Point pto;
+	float pobl;
+	NodeL(Point _pto, float _pobl) {
+		pto = _pto;
+		pobl = _pobl;
+	}
+};
 #endif

@@ -2,6 +2,13 @@
 #include "Node.h"
 #include <iostream>
 #include <vector>
+#include <cmath>
+
+float distance(Point p1, Point p2) {
+    float dx = p2.x - p1.x;
+    float dy = p2.y - p1.y;
+    return std::sqrt(dx * dx + dy * dy);
+}
 
 QuadTree::QuadTree(bool es_negro, Point a, Point b){
     topLeft = a;
@@ -136,10 +143,66 @@ void QuadTree::list(QuadTree* root , std::vector<NodeL*> vec){
     }
 }
 
-int QuadTree::countRegion(Point p, int d){
-	return 1;
+int QuadTree::countRegion(Point p, int d) {
+    // Verificar si el punto está dentro de los límites del QuadTree actual
+    if (!inBoundary(p))
+        return 0;
+
+    int count = 0;
+
+    // Si el QuadTree actual tiene nodos, contar los que están dentro de la región
+    if (n != NULL) {
+        if (distance(n->pos, p) <= d)
+            count++;
+    }
+
+    // Recorrer los subárboles y contar los puntos en la región
+    if (topLeftTree != NULL)
+        count += topLeftTree->countRegion(p, d);
+    if (topRightTree != NULL)
+        count += topRightTree->countRegion(p, d);
+    if (botLeftTree != NULL)
+        count += botLeftTree->countRegion(p, d);
+    if (botRightTree != NULL)
+        count += botRightTree->countRegion(p, d);
+
+    return count;
 }
 
-int QuadTree::AggregateRegion(Point p, int d){
-	return 1;
+int QuadTree::AggregateRegion(Point p, int d) {
+    // Verificar si el QuadTree está vacío
+    if (n == NULL)
+        return 0;
+
+    // Calcular los límites de la región
+    float minX = p.x - d;
+    float maxX = p.x + d;
+    float minY = p.y - d;
+    float maxY = p.y + d;
+
+    // Inicializar la suma de población
+    int populationSum = 0;
+
+    // Verificar si la región colisiona con el QuadTree actual
+    if (inBoundary(Point(minX, minY), Point(maxX, maxY))) {
+        // Si el QuadTree actual es un QuadTree de unidad de área,
+        // agregar su población al total
+        if (abs(topLeft.x - botRight.x) <= 1 && abs(topLeft.y - botRight.y) <= 1) {
+            populationSum += n->pobl;
+        }
+        // Si el QuadTree actual no es de unidad de área,
+        // continuar agregando la población de sus sub-QuadTrees
+        else {
+            if (topLeftTree != NULL)
+                populationSum += topLeftTree->AggregateRegion(p, d);
+            if (topRightTree != NULL)
+                populationSum += topRightTree->AggregateRegion(p, d);
+            if (botLeftTree != NULL)
+                populationSum += botLeftTree->AggregateRegion(p, d);
+            if (botRightTree != NULL)
+                populationSum += botRightTree->AggregateRegion(p, d);
+        }
+    }
+
+    return populationSum;
 }

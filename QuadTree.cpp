@@ -27,12 +27,49 @@ QuadTree::~QuadTree(){
 	return;
 }
 
-int QuadTree::totalPoints(){
-	return puntos;
+int QuadTree::totalPoints() {
+    int count = 0;
+
+    // Contar los puntos almacenados en el nodo actual
+    if (n != nullptr) {
+        count++;
+    }
+
+    // Sumar los puntos de los subárboles recursivamente
+    if (topLeftTree != nullptr) {
+        count += topLeftTree->totalPoints();
+    }
+    if (topRightTree != nullptr) {
+        count += topRightTree->totalPoints();
+    }
+    if (botLeftTree != nullptr) {
+        count += botLeftTree->totalPoints();
+    }
+    if (botRightTree != nullptr) {
+        count += botRightTree->totalPoints();
+    }
+
+    return count;
 }
 
-int QuadTree::totalNodes(){
-	return nodos;
+int QuadTree::totalNodes() {
+    int count = 1;
+
+    // Sumar los nodos de los subárboles recursivamente
+    if (topLeftTree != nullptr) {
+        count += topLeftTree->totalNodes();
+    }
+    if (topRightTree != nullptr) {
+        count += topRightTree->totalNodes();
+    }
+    if (botLeftTree != nullptr) {
+        count += botLeftTree->totalNodes();
+    }
+    if (botRightTree != nullptr) {
+        count += botRightTree->totalNodes();
+    }
+
+    return count;
 }
 
 bool QuadTree::inBoundary(Point p)

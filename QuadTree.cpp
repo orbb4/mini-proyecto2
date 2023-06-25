@@ -206,7 +206,7 @@ int QuadTree::countRegion(Point p, int d) {
     return count;
 }
 
-int QuadTree::AggregateRegion(Point p, int d) {
+int QuadTree::aggregateRegion(Point p, int d) {
     // Verificar si el QuadTree está vacío
     if (n == NULL)
         return 0;
@@ -221,10 +221,10 @@ int QuadTree::AggregateRegion(Point p, int d) {
     int populationSum = 0;
 
     // Verificar si la región colisiona con el QuadTree actual
-    if (inBoundary(Point(minX, minY), Point(maxX, maxY))) {
+    if (inBoundary(Point(minX, minY)) && inBoundary(Point(maxX, maxY))) {
         // Si el QuadTree actual es un QuadTree de unidad de área,
         // agregar su población al total
-        if (abs(topLeft.x - botRight.x) <= 1 && abs(topLeft.y - botRight.y) <= 1) {
+        if (abs(topLeft.x - botRight.x) <= 0.0001 && abs(topLeft.y - botRight.y) <= 0.0001) {
             populationSum += n->pobl;
         }
         // Si el QuadTree actual no es de unidad de área,

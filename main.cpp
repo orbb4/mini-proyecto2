@@ -1,6 +1,9 @@
 #include <iostream>
 #include "QuadTree.h"
 #include "Node.h"
+#include <vector>
+
+using namespace std;
 
 int main() {
 	QuadTree plane2D(true, Point(0, 0), Point(8, 8));
@@ -21,6 +24,13 @@ int main() {
 	plane2D.insert(&p6);
 	plane2D.insert(&p7);
 	plane2D.insert(&p8);
+
+	std::vector<NodeL*> puntos;
+
+	plane2D.list(&plane2D, puntos);
+
+	for (auto i = puntos.begin(); i != puntos.end(); ++i)
+		cout << (*i)->pobl << endl;
 
 	/*
 	cout << "Contenido en la coordenada (5,1): ";

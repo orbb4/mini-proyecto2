@@ -45,8 +45,8 @@ void QuadTree::insert(Node* node)
 
     // We are at a quad of unit area
     // We cannot subdivide this quad further
-    if (abs(topLeft.x - botRight.x) <= 0.1
-        && abs(topLeft.y - botRight.y) <= 0.1) {
+    if (abs(topLeft.x - botRight.x) <= 0.0001
+        && abs(topLeft.y - botRight.y) <= 0.0001) {
         if (n == NULL) {
             n = node;
             puntos++;
@@ -54,9 +54,9 @@ void QuadTree::insert(Node* node)
         return;
     }
 
-    if ((topLeft.x + botRight.x) / 2 >= node->pos.x) {
+    if ((topLeft.x + botRight.x) / 2 > node->pos.x) {
         // Indicates topLeftTree
-        if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
+        if ((topLeft.y + botRight.y) / 2 > node->pos.y) {
             if (topLeftTree == NULL) {
                 topLeftTree = new QuadTree(
                     true,
@@ -84,7 +84,7 @@ void QuadTree::insert(Node* node)
     }
     else {
         // Indicates topRightTree
-        if ((topLeft.y + botRight.y) / 2 >= node->pos.y) {
+        if ((topLeft.y + botRight.y) / 2 > node->pos.y) {
             if (topRightTree == NULL) {
                 topRightTree = new QuadTree(
                     true,
@@ -112,30 +112,28 @@ void QuadTree::insert(Node* node)
     }
 }
 
-std::vector<NodeL*> QuadTree::list(QuadTree* root){
-    std::vector<NodeL*> AB;
-    if (root->n->pos.x == 0 && root->n->pos.y == 0)
+void QuadTree::list(QuadTree* root , std::vector<NodeL*> vec){
+    if (root->n != nullptr)
     {
         NodeL *nodel = new NodeL(root->n->pos, root->n->data);
-        AB.push_back(nodel);
+        vec.push_back(nodel);
     }
     if (root->topLeftTree != nullptr)
     {
-        AB.insert(AB.end(), list(root->topLeftTree).begin(), list(root->topLeftTree).end());
+        list(root->topLeftTree, vec);
     }
     if (root->botLeftTree != nullptr)
     {
-        AB.insert(AB.end(), list(root->botLeftTree).begin(), list(root->botLeftTree).end());
+        list(root->botLeftTree, vec);
     }
     if (root->topRightTree != nullptr)
     {
-        AB.insert(AB.end(), list(root->topRightTree).begin(), list(root->topRightTree).end());
+        list(root->topRightTree, vec);
     }
     if (root->botRightTree != nullptr)
     {
-        AB.insert(AB.end(), list(root->botRightTree).begin(), list(root->botRightTree).end());
+        list(root->botRightTree, vec);
     }
-	return AB;
 }
 
 int QuadTree::countRegion(Point p, int d){

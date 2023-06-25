@@ -8,8 +8,8 @@
 using namespace std;
 
 struct Point {
-	int x;
-	int y;
+	float x;
+	float y;
 	Point() {
 		x = 0;
 		y = 0;

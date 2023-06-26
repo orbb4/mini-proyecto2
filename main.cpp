@@ -1,57 +1,47 @@
 #include <iostream>
+#include <chrono>
 #include "QuadTree.h"
-#include "Node.h"
-#include <vector>
-
+#include "csv_parser.h"
 using namespace std;
+using namespace std::chrono;
 
 int main() {
-	QuadTree plane2D(true, Point(0, 0), Point(8, 8));
-	Node p1(Point(0, 0), 5);
-	Node p2(Point(0, 1), 4);
-	Node p3(Point(1, 0), 2);
-	Node p4(Point(1, 1), 2);
-	Node p5(Point(2, 1), 1);
-	Node p6(Point(5, 1), 3);
-	Node p7(Point(6, 2), 10);
-	Node p8(Point(7, 7), 8);
+    // Preparación para experimentación
+    int num_of_cities = 3000000;
+    vector<Node> nodes;
+    vector<vector<string>> cities = split_csv("worldcitiespop_fixed.csv");
+    
+    // Nos saltamos la primera línea (no contiene datos de ciudades)
+    for (int i = 1; i < num_of_cities + 1; i++) {
+        float x = stof(cities.at(i).at(5));
+        float y = stof(cities.at(i).at(6));
+        int population = stoi(cities.at(i).at(4));
+        Node new_node(Point(x, y), population);
+        nodes.push_back(new_node);
+    }
 
-	plane2D.insert(&p1);
-	plane2D.insert(&p2);
-	plane2D.insert(&p3);
-	plane2D.insert(&p4);
-	plane2D.insert(&p5);
-	plane2D.insert(&p6);
-	plane2D.insert(&p7);
-	plane2D.insert(&p8);
+    // Experimentación
+    int num_attempts = 20;
+    std::chrono::duration<double> avg_secs;
+	avg_secs = std::chrono::seconds::zero();
 
-	std::vector<NodeL*> puntos;
+    for (int j = 0; j < num_attempts; j++) {
+		QuadTree plane2D(true, Point(90, -180), Point(-90, 180));
+        auto start = std::chrono::steady_clock::now();
 
-	plane2D.list(&plane2D, puntos);
+        for (int i = 0; i < num_of_cities; i++) {
+            plane2D.insert(&nodes.at(i));
+        }
 
-	for (auto i = puntos.begin(); i != puntos.end(); ++i)
-		cout << (*i)->pobl << endl;
-
-	int count = plane2D.countRegion(Point(2, 1), 2);
-	cout << "Cantidad de puntos en la regi�n: " << count << endl;
-
-	cout << "\nVector elements are: ";
-	cout << "\nSize : " << puntos.size();
-	for (auto it = puntos.begin(); it != puntos.end(); it++)
-		cout << (*it)->pobl << " ";
-
-	/*
-	cout << "Contenido en la coordenada (5,1): ";
-	Node* p = plane2D.search(Point(5, 1));
-	if (p != NULL) cout << p->data << endl;
-	else cout << "No existe el punto." << endl;
-	// Contenido en la coordenada (5,1): 3
-
-	cout << "Contenido en la coordenada (1,5): ";
-	p = plane2D.search(Point(1, 5));
-	if (p != NULL) cout << p->data << endl;
-	else cout << "No existe el punto." << endl;
-	// Contenido en la coordenada (1,5): No existe el punto.
-	*/
-	return 0;
+  		auto end = std::chrono::steady_clock::now();
+		std::chrono::duration<double> time_in_secs = end-start;
+		std::cout <<"Experimento "<< j <<": "<< time_in_secs.count() << "segundos" << std::endl;
+		avg_secs+=time_in_secs;
+        cout<<plane2D.list();
+        
+    }
+    avg_secs/=num_attempts;
+	std::cout<<"Tiempo promedio: "<< avg_secs.count() << "s" << std::endl;
+    
+    return 0;
 }

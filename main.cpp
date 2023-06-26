@@ -35,6 +35,11 @@ int main() {
 	int count = plane2D.countRegion(Point(2, 1), 2);
 	cout << "Cantidad de puntos en la región: " << count << endl;
 
+	cout << "\nVector elements are: ";
+	cout << "\nSize : " << puntos.size();
+	for (auto it = puntos.begin(); it != puntos.end(); it++)
+		cout << (*it)->pobl << " ";
+
 	/*
 	cout << "Contenido en la coordenada (5,1): ";
 	Node* p = plane2D.search(Point(5, 1));

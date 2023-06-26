@@ -156,26 +156,21 @@ void QuadTree::insert(Node* node)
     }
 }
 
-void QuadTree::list(QuadTree* root , std::vector<NodeL*> vec){
-    if (root->n != nullptr)
-    {
-        NodeL *nodel = new NodeL(root->n->pos, root->n->pobl);
+void QuadTree::list(QuadTree* root, std::vector<NodeL*>& vec) {
+    if (root->n != nullptr) {
+        NodeL* nodel = new NodeL(root->n->pos, root->n->pobl);
         vec.push_back(nodel);
     }
-    if (root->topLeftTree != nullptr)
-    {
+    if (root->topLeftTree != nullptr) {
         list(root->topLeftTree, vec);
     }
-    if (root->botLeftTree != nullptr)
-    {
+    if (root->botLeftTree != nullptr) {
         list(root->botLeftTree, vec);
     }
-    if (root->topRightTree != nullptr)
-    {
+    if (root->topRightTree != nullptr) {
         list(root->topRightTree, vec);
     }
-    if (root->botRightTree != nullptr)
-    {
+    if (root->botRightTree != nullptr) {
         list(root->botRightTree, vec);
     }
 }

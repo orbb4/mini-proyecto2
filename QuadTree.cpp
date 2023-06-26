@@ -159,7 +159,7 @@ void QuadTree::insert(Node* node)
 void QuadTree::list(QuadTree* root , std::vector<NodeL*> vec){
     if (root->n != nullptr)
     {
-        NodeL *nodel = new NodeL(root->n->pos, root->n->data);
+        NodeL *nodel = new NodeL(root->n->pos, root->n->pobl);
         vec.push_back(nodel);
     }
     if (root->topLeftTree != nullptr)
@@ -231,13 +231,13 @@ int QuadTree::aggregateRegion(Point p, int d) {
         // continuar agregando la población de sus sub-QuadTrees
         else {
             if (topLeftTree != NULL)
-                populationSum += topLeftTree->AggregateRegion(p, d);
+                populationSum += topLeftTree->aggregateRegion(p, d);
             if (topRightTree != NULL)
-                populationSum += topRightTree->AggregateRegion(p, d);
+                populationSum += topRightTree->aggregateRegion(p, d);
             if (botLeftTree != NULL)
-                populationSum += botLeftTree->AggregateRegion(p, d);
+                populationSum += botLeftTree->aggregateRegion(p, d);
             if (botRightTree != NULL)
-                populationSum += botRightTree->AggregateRegion(p, d);
+                populationSum += botRightTree->aggregateRegion(p, d);
         }
     }
 

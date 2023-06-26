@@ -26,7 +26,7 @@ class Node
 public:
 	Node(Point cords, float data);
 	Point pos;
-	float data;
+	float pobl;
 
 	bool inBoundary(Point);
 };

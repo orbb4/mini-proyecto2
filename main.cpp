@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 int main() {
     // Preparación para experimentación
-    int num_of_cities = 3000000;
+    int num_of_cities = 800000;
     vector<Node> nodes;
     vector<vector<string>> cities = split_csv("worldcitiespop_fixed.csv");
     
@@ -37,7 +37,6 @@ int main() {
 		std::chrono::duration<double> time_in_secs = end-start;
 		std::cout <<"Experimento "<< j <<": "<< time_in_secs.count() << "segundos" << std::endl;
 		avg_secs+=time_in_secs;
-        cout<<plane2D.list();
         
     }
     avg_secs/=num_attempts;

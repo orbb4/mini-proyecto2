@@ -13,8 +13,9 @@ int main() {
     
     // Nos saltamos la primera línea (no contiene datos de ciudades)
     for (int i = 1; i < num_of_cities + 1; i++) {
-        float x = stof(cities.at(i).at(5));
-        float y = stof(cities.at(i).at(6));
+		size_t aux;
+        float y = stof(cities.at(i).at(7),&aux);
+        float x = stof(cities.at(i).at(7).substr(aux +1, string::npos));
         int population = stoi(cities.at(i).at(4));
         Node new_node(Point(x, y), population);
         nodes.push_back(new_node);
@@ -26,7 +27,7 @@ int main() {
 	avg_secs = std::chrono::seconds::zero();
 
     for (int j = 0; j < num_attempts; j++) {
-		QuadTree plane2D(true, Point(90, -180), Point(-90, 180));
+		QuadTree plane2D(true, Point(-180,-90), Point(180,90));
         auto start = std::chrono::steady_clock::now();
 
         for (int i = 0; i < num_of_cities; i++) {
